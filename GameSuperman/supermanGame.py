@@ -15,6 +15,10 @@ b = 0
 black = (0, 0, 0)
 white = (255, 255, 255)
 red = (255, 0, 0)
+green = (0, 200, 0)
+blue = (0, 0, 200)
+bright_green = (0, 250, 0)
+bright_blue = (0, 0, 250)
 
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 
@@ -67,6 +71,21 @@ def crash():
     message_display(txdisplay)
 
 
+def button(msg, x, y, w, h, k, n):
+    # k and n are color active and inactive
+    mouse = pygame.mouse.get_pos()
+    # print(mouse)
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, k, (x, y, w, h))
+    else:
+        pygame.draw.rect(gameDisplay, n, (x, y, w, h))
+
+    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    textSurf, textRect = text_objects(msg, smallText)
+    textRect.center = (x + (w/2), y+(h/2))
+    gameDisplay.blit(textSurf, textRect)
+
+
 def gameintro():
     intro = True
     while intro:
@@ -77,8 +96,12 @@ def gameintro():
         background(a, b)
         largeText = pygame.font.Font('freesansbold.ttf', 95)
         TextSurf, TextRect = text_objects("SupermanGame", largeText)
-        TextRect.center = ((display_width/2), (display_height/2))
+        TextRect.center = ((display_width/2), (display_height/4))
         gameDisplay.blit(TextSurf, TextRect)
+
+        button("Start", 150, 320, 100, 50, green, bright_green)
+        button("Quit", 550, 320, 100, 50, blue, bright_blue)
+
         pygame.display.update()
         clock.tick(15)
 
