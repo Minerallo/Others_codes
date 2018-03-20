@@ -76,7 +76,9 @@ def game_loop():
     y_change = 0
 
     thing_startx = random.randrange(0, display_width)
+
     thing_starty = -600
+
     # negative to start outside of the screen
     thing_speed = 3
     thing_height = random.randrange(50, 100)
@@ -131,13 +133,23 @@ def game_loop():
             # thing_speed += 1
             thing_width += (dodged*1.2)
         if y < thing_starty+thing_height:
-            print('y crossover')
-            if x > thing_startx and x < thing_startx+thing_width or x+car_width > thing_startx and x+car_width < thing_startx+thing_width:
-                print('xcrossover')
+            if thing_startx+thing_width > x and thing_startx+thing_width < x+car_width:
                 crash()
+            if thing_startx < x+car_width and thing_startx > x:
+                crash()
+        if y+car_height > thing_starty:
+            if x+car_width > thing_startx and x+car_width < thing_startx+thing_width:
+                crash()
+            if x < thing_startx+thing_width and x > thing_startx:
+                crash()
+        # if y < thing_starty+thing_height:
+        #     print('y crossover')
+        #     if x > thing_startx and x < thing_startx+thing_width or x+car_width > thing_startx and x+car_width < thing_startx+thing_width:
+        #         print('xcrossover')
+        #         crash()
         pygame.display.update()
         # Frame per second
-        clock.tick(50)
+        clock.tick(10)
 
 
 game_loop()
