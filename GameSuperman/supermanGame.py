@@ -67,6 +67,22 @@ def crash():
     message_display(txdisplay)
 
 
+def gameintro():
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        background(a, b)
+        largeText = pygame.font.Font('freesansbold.ttf', 95)
+        TextSurf, TextRect = text_objects("SupermanGame", largeText)
+        TextRect.center = ((display_width/2), (display_height/2))
+        gameDisplay.blit(TextSurf, TextRect)
+        pygame.display.update()
+        clock.tick(15)
+
+
 def game_loop():
 
     x = (display_width * 0.45)
@@ -132,26 +148,27 @@ def game_loop():
             dodged += 1
             # thing_speed += 1
             thing_width += (dodged*1.2)
-        if y < thing_starty+thing_height:
-            if thing_startx+thing_width > x and thing_startx+thing_width < x+car_width:
-                crash()
-            if thing_startx < x+car_width and thing_startx > x:
-                crash()
-        if y+car_height > thing_starty:
-            if x+car_width > thing_startx and x+car_width < thing_startx+thing_width:
-                crash()
-            if x < thing_startx+thing_width and x > thing_startx:
-                crash()
         # if y < thing_starty+thing_height:
-        #     print('y crossover')
-        #     if x > thing_startx and x < thing_startx+thing_width or x+car_width > thing_startx and x+car_width < thing_startx+thing_width:
-        #         print('xcrossover')
+        #     if thing_startx+thing_width > x and thing_startx+thing_width < x+car_width:
         #         crash()
+        #     if thing_startx < x+car_width and thing_startx > x:
+        #         crash()
+        # if y+car_height > thing_starty:
+        #     if x+car_width > thing_startx and x+car_width < thing_startx+thing_width:
+        #         crash()
+        #     if x < thing_startx+thing_width and x > thing_startx:
+        #         crash()
+        if y < thing_starty+thing_height:
+            print('y crossover')
+            if x > thing_startx and x < thing_startx+thing_width or x+car_width > thing_startx and x+car_width < thing_startx+thing_width:
+                print('xcrossover')
+                crash()
         pygame.display.update()
         # Frame per second
         clock.tick(10)
 
 
+gameintro()
 game_loop()
 pygame.quit()
 quit()
