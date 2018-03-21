@@ -238,6 +238,7 @@ def game_loop():
         clock.tick(50)
 
 
+# test
 gameintro()
 game_loop()
 pygame.quit()
