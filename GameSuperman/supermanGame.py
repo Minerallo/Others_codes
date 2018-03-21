@@ -67,8 +67,21 @@ def message_display(text):
 
 
 def crash():
+    crash = True
     txdisplay = ('Boing')
     message_display(txdisplay)
+    largeText = pygame.font.SysFont("comicsansms", 95)
+    TextSurf, TextRect = text_objects("Boing", largeText)
+    TextRect.center = ((display_width/2), (display_height/4))
+    while crash = True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        # button("Start", 150, 320, 100, 50, green, bright_green, "play")
+        button("Continue", 150, 320, 100, 50, green, bright_green, game_loop)
+        button("Quit", 550, 320, 100, 50, blue, bright_blue, quitgame)
 
 
 def quitgame():
@@ -130,15 +143,15 @@ def unpause():
 
 
 def paused():
+    largeText = pygame.font.SysFont("comicsansms", 95)
+    TextSurf, TextRect = text_objects("Paused", largeText)
+    TextRect.center = ((display_width/2), (display_height/4))
+    gameDisplay.blit(TextSurf, TextRect)
     while pause:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        largeText = pygame.font.SysFont("comicsansms", 95)
-        TextSurf, TextRect = text_objects("Paused", largeText)
-        TextRect.center = ((display_width/2), (display_height/4))
-        gameDisplay.blit(TextSurf, TextRect)
 
         # button("Start", 150, 320, 100, 50, green, bright_green, "play")
         button("Continue", 150, 320, 100, 50, green, bright_green, unpause)
