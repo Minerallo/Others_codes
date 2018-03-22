@@ -3,6 +3,10 @@ import time
 import random
 
 pygame.init()
+pygame.mixer.init()
+# crash.sound = pygame.mixer.Sound('crash_sound.mp3')
+mainmp = pygame.mixer.music.load('car.mp3')
+
 
 display_width = 800
 display_height = 600
@@ -30,6 +34,10 @@ carImg = pygame.image.load('character_game.png')
 carImg = pygame.transform.scale(carImg, (car_width, car_height))
 backimg = pygame.image.load('background.png')
 backimg = pygame.transform.scale(backimg, (display_width+7, display_height+5))
+
+# make the icon
+carImg2 = pygame.transform.scale(carImg, (32, 32))
+pygame.display.set_icon(carImg2)
 
 
 def things_dodged(count):
@@ -67,21 +75,27 @@ def message_display(text):
 
 
 def crash():
-    crash = True
-    txdisplay = ('Boing')
-    message_display(txdisplay)
+    # pygame.mixer.music.stop()
+    # pygame.mixer.Sound.play(crash_sound)
+    # crash_sound = pygame.mixer.music.load('crash_sound.mp3')
+    # pygame.mixer.Sound.play(crash_sound)
     largeText = pygame.font.SysFont("comicsansms", 95)
     TextSurf, TextRect = text_objects("Boing", largeText)
     TextRect.center = ((display_width/2), (display_height/4))
-    while crash = True:
+    gameDisplay.blit(TextSurf, TextRect)
+
+    while True:
         for event in pygame.event.get():
+            # print(event)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-        # button("Start", 150, 320, 100, 50, green, bright_green, "play")
-        button("Continue", 150, 320, 100, 50, green, bright_green, game_loop)
-        button("Quit", 550, 320, 100, 50, blue, bright_blue, quitgame)
+        button("Replay", 150, 320, 100, 50, green, bright_green, game_loop)
+        button("Quit",  550, 320, 100, 50, blue, bright_blue, quitgame)
+
+        pygame.display.update()
+        clock.tick(15)
 
 
 def quitgame():
@@ -139,10 +153,12 @@ def gameintro():
 
 def unpause():
     global pause
+    pygame.mixer.music.unpause()
     pause = False
 
 
 def paused():
+    pygame.mixer.music.pause()
     largeText = pygame.font.SysFont("comicsansms", 95)
     TextSurf, TextRect = text_objects("Paused", largeText)
     TextRect.center = ((display_width/2), (display_height/4))
@@ -164,7 +180,7 @@ def paused():
 def game_loop():
 
     global pause
-
+    pygame.mixer.music.play(-1)
     x = (display_width * 0.45)
     y = (display_height * 0.65)
 
@@ -229,26 +245,29 @@ def game_loop():
             thing_starty = 0-thing_height
             thing_startx = random.randrange(0, display_width)
             dodged += 1
-            # thing_speed += 1
+            thing_speed += 1
             thing_width += (dodged*1.2)
+
         # if y < thing_starty+thing_height:
-        #     if thing_startx+thing_width > x and thing_startx+thing_width < x+car_width:
+        #     if x < thing_startx and x+car_width > thing_startx:
         #         crash()
-        #     if thing_startx < x+car_width and thing_startx > x:
+        #     if x+car_width > thing_startx+thing_width and x > thing_startx+thing_width:
         #         crash()
         # if y+car_height > thing_starty:
-        #     if x+car_width > thing_startx and x+car_width < thing_startx+thing_width:
+        #     if x < thing_startx and x+car_width > thing_startx:
         #         crash()
-        #     if x < thing_startx+thing_width and x > thing_startx:
+        #     if x+car_width > thing_startx+thing_width and x > thing_startx+thing_width:
         #         crash()
+
         if y < thing_starty+thing_height:
             print('y crossover')
             if x > thing_startx and x < thing_startx+thing_width or x+car_width > thing_startx and x+car_width < thing_startx+thing_width:
                 print('xcrossover')
                 crash()
+
         pygame.display.update()
         # Frame per second
-        clock.tick(50)
+        clock.tick(30)
 
 
 # test
